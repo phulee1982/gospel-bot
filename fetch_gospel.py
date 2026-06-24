@@ -128,4 +128,16 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    import sys
+    if len(sys.argv) > 1 and sys.argv[1] == "debug":
+        # Debug mode - print raw content
+        url = "https://www.vaticannews.va/vi/loi-chua-hang-ngay/2026/06/24.html"
+        resp = requests.get(url, headers=HEADERS, timeout=20)
+        resp.encoding = "utf-8"
+        soup = BeautifulSoup(resp.text, "html.parser")
+        for tag in soup(["script","style","nav","footer"]): tag.decompose()
+        lines = [l.strip() for l in soup.get_text(separator="\n").splitlines() if l.strip()]
+        for i, line in enumerate(lines[:80]):
+            print(f"{i:3}: {line}")
+    else:
+        main()
