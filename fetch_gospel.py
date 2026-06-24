@@ -137,7 +137,7 @@ if __name__ == "__main__":
         soup = BeautifulSoup(resp.text, "html.parser")
         for tag in soup(["script","style","nav","footer"]): tag.decompose()
         lines = [l.strip() for l in soup.get_text(separator="\n").splitlines() if l.strip()]
-        for i, line in enumerate(lines[:80]):
+        for i, line in enumerate(lines[80:200],start=80):
             print(f"{i:3}: {line}")
     else:
         main()
